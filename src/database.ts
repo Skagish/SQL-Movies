@@ -39,6 +39,14 @@ export class Database {
     return this.sql.selectMultipleRows(query);
   }
 
+  async delete(query: string): Promise<void> {
+    await this.sql.execute(query);
+  }
+
+  async execute(query: string): Promise<void> {
+    await this.sql.execute(query);
+  }
+
   static async createNew(prefix: string): Promise<Database> {
     const sql = await SQLiteWrapper.createNew(prefix);
     return new Database(sql);

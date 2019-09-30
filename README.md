@@ -61,3 +61,29 @@ When you have this test green, open database file in SQLite Browser and try to e
 ### 03: Insert Combined Data
 
 This step is very similar to the previous one, we need to insert data from `reviews.csv`. This will be a little bit trickier, because each review is given to a movie from the `movies` table.
+
+### 04: Create Relationship Tables
+
+Create tables which *stick* together our existing tables.
+
+You may want to repeat about Relationships in Database Design, for example [here @database.guide](https://database.guide/the-3-types-of-relationships-in-database-design/)
+
+### 05: Insert Relationship Data
+
+Fill created relationship tables with the data.
+
+### 06: Simple Queries
+
+Simple queries.
+
+If you are stuck check out examples [@sqlzoo.net](https://sqlzoo.net) and [@w3schools.com](https://www.w3schools.com/sql/default.asp).
+
+### 07: Queries Across Tables
+
+More complex queries, mainly `joins` between tables.
+
+If you are stuck check out examples [@sqlzoo.net](https://sqlzoo.net) and [@w3schools.com](https://www.w3schools.com/sql/default.asp).
+
+### 08: Integrity
+
+Can movie review exist without the movie?

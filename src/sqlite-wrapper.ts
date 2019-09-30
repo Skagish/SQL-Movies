@@ -4,11 +4,11 @@ import { resolve } from "path";
 
 const sql = sqlite3.verbose();
 
-const DB_DIR = resolve(__dirname, `../_db`)
+const DB_DIR = resolve(__dirname, `../_db`);
 
 const path = (prefix: string): string => {
   return `${DB_DIR}/${prefix}-database.sqlite3`;
-}
+};
 
 export class SQLiteWrapper {
   private pathToFile: string;
@@ -56,14 +56,16 @@ export class SQLiteWrapper {
   }
 
   static async createNew(prefix: string): Promise<SQLiteWrapper> {
-    const exists = await new Promise(resolve => fs.exists(DB_DIR, exists => resolve(exists)))
+    const exists = await new Promise(resolve =>
+      fs.exists(DB_DIR, exists => resolve(exists))
+    );
     if (!exists) {
       await new Promise((resolve, reject) => {
         fs.mkdir(DB_DIR, err => {
-          if (err) return reject(err)
-          resolve()
-        })
-      })
+          if (err) return reject(err);
+          resolve();
+        });
+      });
     }
     return new SQLiteWrapper(path(prefix));
   }

@@ -103,4 +103,17 @@ describe("csv loader", () => {
     ]);
     done();
   });
+
+  it("should filter out duplicated actors", async done => {
+    const filePath = resolve(__dirname, "./movies-duplicated-actors.csv");
+    const movie = (await CsvLoader.loadMovies(filePath))[0];
+
+    expect(movie.cast).toEqual([
+      "Matthew Lillard",
+      "Grey Griffin",
+      "Frank Welker",
+      "Mindy Cohn"
+    ]);
+    done();
+  });
 });

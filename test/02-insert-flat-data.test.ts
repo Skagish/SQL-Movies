@@ -55,9 +55,38 @@ const insertProductionCompanies = (companies: string[]) => {
 
 const insertMovies = (movies: Movie[]) => {
   return (
-  `insert into movies (imdb_id) values` +
-    movies.map(movies => `('${movies}')`).join(","));
-};
+  `INSERT INTO movies 
+  (
+    imdb_id,
+    popularity,
+    budget,
+    revenue,
+    original_title,
+    homepage,
+    tagline,
+    overview,
+    runtime,
+    release_date,
+    budget_adj,
+    revenue_adj
+  ) 
+    VALUES` + movies.map(movie => `
+    (
+    '${(movie.imdbId)}',
+    ${(movie.popularity)},
+    ${(movie.budget)},
+    ${(movie.revenue)},
+    '${escape(movie.originalTitle)}',
+    '${escape(movie.homepage)}',
+    '${escape(movie.tagline ? movie.tagline : "")}',
+    '${escape(movie.overview)}',
+    ${(movie.runtime)},
+    '${(movie.releaseDate)}',
+    ${(movie.budgetAdjusted)},
+    ${(movie.revenueAdjusted)}
+    )`
+    ))
+  };
 
 describe("Insert Flat Data", () => {
   let db: Database;
@@ -78,7 +107,7 @@ describe("Insert Flat Data", () => {
       }
 
       const count = await db.selectSingleRow(selectCount(ACTORS));
-      expect(count.c).toBe(18955);
+      expect(count.c).toBe(18951);
 
       const actor = await db.selectSingleRow(selectActorByName("Tom Hardy"));
       expect(actor.id).not.toBeNaN();
@@ -100,7 +129,7 @@ describe("Insert Flat Data", () => {
       }
 
       const count = await db.selectSingleRow(selectCount(KEYWORDS));
-      expect(count.c).toBe(7861);
+      expect(count.c).toBe(7859);
 
       const row = await db.selectSingleRow(selectKeyword("teddy bear"));
       expect(row.id).not.toBeNaN();
@@ -122,7 +151,7 @@ describe("Insert Flat Data", () => {
       }
 
       const count = await db.selectSingleRow(selectCount(DIRECTORS));
-      expect(count.c).toBe(5343);
+      expect(count.c).toBe(5341);
 
       const row = await db.selectSingleRow(selectDirector("Alan Taylor"));
       expect(row.id).not.toBeNaN();
@@ -141,7 +170,7 @@ describe("Insert Flat Data", () => {
       await db.insert(insertGenres(genres));
 
       const count = await db.selectSingleRow(selectCount(GENRES));
-      expect(count.c).toBe(21);
+      expect(count.c).toBe(20);
 
       const row = await db.selectSingleRow(selectGenre("Fantasy"));
       expect(row.id).not.toBeNaN();
@@ -163,7 +192,7 @@ describe("Insert Flat Data", () => {
       }
 
       const count = await db.selectSingleRow(selectCount(PRODUCTION_COMPANIES));
-      expect(count.c).toBe(7859);
+      expect(count.c).toBe(7858);
 
       const row = await db.selectSingleRow(
         selectProductionCompany("Universal Pictures")
@@ -180,7 +209,7 @@ describe("Insert Flat Data", () => {
     "should insert movies",
     async done => {
       const movies = await CsvLoader.movies();
-      const chunks = _.chunk(movies, 500);
+      const chunks = _.chunk(movies, 10);
 
       for (const ch of chunks) {
         await db.insert(insertMovies(ch));

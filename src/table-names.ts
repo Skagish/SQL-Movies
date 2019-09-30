@@ -15,3 +15,17 @@ export const ALL_TABLES = [
   GENRES,
   PRODUCTION_COMPANIES
 ];
+
+export const MOVIE_GENRES = "movie_genres";
+export const MOVIE_KEYWORDS = "movie_keywords";
+export const MOVIE_ACTORS = "movie_actors";
+export const MOVIE_DIRECTORS = "movie_directors";
+export const MOVIE_PRODUCTION_COMPANIES = "movie_production_companies";
+
+export const ALL_RELATIONSHIP_TABLES = [
+  MOVIE_GENRES,
+  MOVIE_KEYWORDS,
+  MOVIE_ACTORS,
+  MOVIE_DIRECTORS,
+  MOVIE_PRODUCTION_COMPANIES
+];

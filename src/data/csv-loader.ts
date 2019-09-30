@@ -4,7 +4,13 @@ import _ from "lodash";
 import moment from "moment";
 import { Rating, Movie } from "./types";
 
-const DATA_DIR = resolve(__dirname, "../../_data")
+const DATA_DIR = resolve(__dirname, "../../_data");
+
+const toArray = (col: any): string[] => {
+  return _.uniq((col as string).split("|").map(it => it.trim())).filter(
+    it => it.length > 0
+  );
+};
 
 const toMovie = (line: any) => {
   return {
@@ -13,15 +19,15 @@ const toMovie = (line: any) => {
     budget: parseInt(line.budget),
     revenue: parseInt(line.revenue),
     originalTitle: line.original_title,
-    cast: line.cast.split("|"),
+    cast: toArray(line.cast),
     homepage: line.homepage,
-    directors: line.director.split("|"),
+    directors: toArray(line.director),
     tagline: line.tagline,
-    keywords: line.keywords.split("|"),
+    keywords: toArray(line.keywords),
     overview: line.overview,
     runtime: parseInt(line.runtime),
-    genres: line.genres.split("|"),
-    productionCompanies: line.production_companies.split("|"),
+    genres: toArray(line.genres),
+    productionCompanies: toArray(line.production_companies),
     releaseDate: moment(line.release_date, "M/D/YYYY").format("YYYY-MM-DD"),
     budgetAdjusted: parseFloat(line.budget_adj),
     revenueAdjusted: parseFloat(line.revenue_adj)
@@ -29,11 +35,11 @@ const toMovie = (line: any) => {
 };
 
 const toRating = (line: any) => {
-  const unix = moment.unix(parseInt(line.timestamp))
+  const unix = moment.unix(parseInt(line.timestamp));
   return {
     userId: parseInt(line.user_id),
     imdbId: line.imdb_id,
-    time_created: moment.utc(unix).format('YYYY-MM-DD HH:mm:ss'),
+    time_created: moment.utc(unix).format("YYYY-MM-DD HH:mm:ss"),
     rating: parseFloat(line.rating)
   } as Rating;
 };
